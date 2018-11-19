@@ -1,0 +1,46 @@
+1. What data types do each of these values represent?
+    1. "A Clockwork Orange" = String
+    2. 42 = Integer
+    3. 09/02/1945 = string or in a most databases datetime
+    4. 98.7 = float
+    5. $15.99 = money
+2. Explain in your own words when a database might be used. Explain when a text file might be used.
+    A database may be used whenever an app requires the longterm storage of related data.  Being able to join 
+    tables allows access to lots of inforation in one location.  A text file may be used when the data is being stored on
+    your local machine. Or when the data is so simple that the overhead of the database engine isn't worth it.  For instance
+    if you are saving a simple list of strings.
+
+3. Describe one difference between SQL and other programming languages.
+    SQL was created to work with data in a database.  It's a declarative language that only concerns itself with the data
+    that needs to be found and not how the database should retrieve the data.  It also allows a mostly stnadardized way of
+    interacting with the many differnt datbase engines avaliable today.
+
+4. A database is a binary file that stores tables.  Each table consists of rows and columns.  Data is stored as values
+    in the cells of the table.  A cell is accessable by it's row and column indexes.  A database engine creates the 
+    binary files and also creates the protocals for data intry and data access.
+
+5. Explain the meaning of table, row, column, and value.
+    Table: a collection of data stored in rows and columns.
+    row: a single horizontal area of a table that combined with columns make up cells to hold a value for the table.
+    column: are the verical area of a table that define what the data represents.
+    value: a single peice of data stored in a database cell at a given intersection between a row and column.
+
+6. List 3 datatypes that can be used in a table
+    1. String
+    2. Integer
+    3. Float.
+
+7. describe the queries:
+    1. Select the date and amount from the payments table.
+    2. Select the amount from the payments table where it excedes $500.
+    3. Select all columns from the payments table where the payee is Mega Foods.
+
+8. 1. SELECT email, singup
+        FROM users
+        WHERE name = 'DeAndre Data';
+    2. SELECT userid
+        FROM users
+        WHERE email = 'aleesia.algorithm@uw.edu';
+    3. SELECT *
+        FROM users
+        where userid = 4;
