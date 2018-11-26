@@ -35,12 +35,22 @@
     2. Select the amount from the payments table where it excedes $500.
     3. Select all columns from the payments table where the payee is Mega Foods.
 
-8. 1. SELECT email, singup
+8. 1. SELECT email, signup
         FROM users
         WHERE name = 'DeAndre Data';
+        Output: 
+        email              |      signup
+        datad@comcast.net  |  2008-01-20T00:00:00.000Z
     2. SELECT userid
         FROM users
         WHERE email = 'aleesia.algorithm@uw.edu';
+        Output:
+        userId
+        1
     3. SELECT *
         FROM users
         where userid = 4;
+        Output:
+        userId      name                email                   signup
+        4           Brandy Boolean      bboolean@nasa.gov       1999-10-15T00:00:00.000Z
+        
