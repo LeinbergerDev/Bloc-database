@@ -1,0 +1,183 @@
+1) How do you find related data that is held in two separate data tables?
+    Relational databases use keys to create relationships between tables of data.  The primary key is the main index of the table.
+    This key is generally used in a second table as a foreign key.  The column for the foreign key is generally named <table name>_id.
+2) Explain, in your own words, the difference between a CROSS JOIN, INNER JOIN, LEFT OUTER JOIN, RIGHT OUTER JOIN, and FULL OUTER JOIN. Give a real world example for each.
+    CROSS JOIN: creates every combination possible from each table that is being queried.
+    INNER JOIN: creates a new table with one row for each complete row of data between the two tables.
+    LEFT OUTER JOIN: creates a new table with all the rows in the left table present even if the relation produces a null value.
+    RIGHT OUTER JOIN: creates a new table with all the rows in the right table present even if the relation produces a null value.
+    FULL OUTER JOIN: creates a new table with all the rows in both table present even if the relation produces a null value in either direction of the relationship.
+
+3) Define primary key and foreign key. Give a real world example for each.
+    The primary key is the main index key for a table.  This key is used to look up data in the table as well as a reference to the row for linking it to other tables.
+    The foreign key is establishes a relationship between two tables.  The value of the foreign key references the value of the primary key of another table.
+
+4) Define aliasing.
+    Aliasing allows the developer to shorten the table names by assigning them an alias.
+
+5) Change this query so that you are using aliasing:
+
+SELECT professor.name, compensation.salary, compensation.vacation_days FROM professor 
+JOIN compensation 
+ON professor.id = compensation.professor_id;
+
+SELECT p.name, c.salary, c.vacation_days 
+FROM professor AS p
+JOIN compensation AS c
+ON p.id = c.professor_id;
+
+6) Why would you use a NATURAL JOIN? Give a real world example.
+        A NATURAL JOIN gets all the unique columns from the two tables.  The row will not be entered into the new table if there isn't a corresponding foreign key value.
+
+7) Using this Employee schema and data, write queries to find the following information:
+
+    All employees with their shifts if they have any. Also include any unscheduled shifts.
+
+    SELECT employees.name, shifts.date, shifts.start_time, shifts.end_time
+    FROM scheduled_shifts
+    JOIN employees
+    ON employees.id = scheduled_shifts.employee_id
+    FULL OUTER JOIN shifts
+    ON shifts.id = scheduled_shifts.shift_id;
+
+          name       |    date    | start_time | end_time 
+   ------------------+------------+------------+----------
+    Hermione Granger | 1998-03-09 | 08:00:00   | 16:00:00
+    Hermione Granger | 1998-03-10 | 08:00:00   | 16:00:00
+    Hermione Granger | 1998-03-11 | 08:00:00   | 16:00:00
+    Hermione Granger | 1998-03-12 | 08:00:00   | 16:00:00
+    Hermione Granger | 1998-03-13 | 08:00:00   | 16:00:00
+    Ronald Weasley   | 1998-03-10 | 12:00:00   | 16:00:00
+    Ronald Weasley   | 1998-03-12 | 12:00:00   | 16:00:00
+    Luna Lovegood    | 1998-03-09 | 12:00:00   | 16:00:00
+    Luna Lovegood    | 1998-03-11 | 12:00:00   | 16:00:00
+    Luna Lovegood    | 1998-03-13 | 12:00:00   | 16:00:00
+    Draco Malfoy     | 1998-03-11 | 16:00:00   | 20:00:00
+    Draco Malfoy     | 1998-03-12 | 16:00:00   | 20:00:00
+    Draco Malfoy     | 1998-03-13 | 16:00:00   | 20:00:00
+    Padma Patil      | 1998-03-09 | 12:00:00   | 20:00:00
+    Padma Patil      | 1998-03-10 | 12:00:00   | 20:00:00
+    Padma Patil      | 1998-03-11 | 12:00:00   | 20:00:00
+    Padma Patil      | 1998-03-09 | 08:00:00   | 12:00:00
+    Padma Patil      | 1998-03-10 | 08:00:00   | 12:00:00
+    Padma Patil      | 1998-03-11 | 08:00:00   | 12:00:00
+    Cho Chang        | 1998-03-12 | 12:00:00   | 20:00:00
+    Cho Chang        | 1998-03-13 | 12:00:00   | 20:00:00
+    Dean Thomas      | 1998-03-09 | 16:00:00   | 20:00:00
+    Dean Thomas      | 1998-03-10 | 16:00:00   | 20:00:00
+                     | 1998-03-13 | 08:00:00   | 12:00:00
+                     | 1998-03-12 | 08:00:00   | 12:00:00
+
+8) Using this Adoption schema and data, please write queries to retrieve the following information and include the results:
+
+    All volunteers. If the volunteer is fostering a dog, include each dog as well.
+    
+    SELECT volunteers.first_name, volunteers.last_name, dogs.name
+    FROM volunteers
+    LEFT JOIN dogs
+    ON volunteers.foster_dog_id = dogs.id;
+
+     first_name | last_name  |   name    
+    ------------+------------+-----------
+    Rubeus     | Hagrid     | Munchkin
+    Marjorie   | Dursley    | Marmaduke
+    Sirius     | Black      | 
+    Remus      | Lupin      | 
+    Albus      | Dumbledore | 
+
+    The cat's name, adopter's name, and adopted date for each cat adopted within the past month to be displayed
+     as part of the "Happy Tail" social media promotion which posts recent successful adoptions.
+
+    SELECT cats.name, adopters.first_name, adopters.last_name, cat_adoptions.date
+    FROM cat_adoptions
+    JOIN cats
+    ON cat_adoptions.cat_id = cats.id
+    JOIN adopters
+    ON cat_adoptions.adopter_id = adopters.id;
+
+       name   | first_name | last_name |    date    
+    ----------+------------+-----------+------------
+    Azul     | Hermione   | Granger   | 2018-10-20
+    Mushi    | Arabella   | Figg      | 2018-11-14
+    Victoire | Argus      | Filch     | 2018-11-19
+
+    Adopters who have not yet chosen a dog to adopt and generate all possible combinations of adopters and available dogs.
+
+    SELECT adopters.first_name, adopters.last_name, dogs.name
+    FROM adopters, dog_adoptions
+    CROSS JOIN dogs
+    WHERE NOT dog_adoptions.adopter_id = adopters.id
+    AND NOT dog_adoptions.dog_id = dogs.id;
+
+     first_name | last_name |   name    
+    ------------+-----------+-----------
+    Hermione   | Granger   | Boujee
+    Hermione   | Granger   | Munchkin
+    Hermione   | Granger   | Marley
+    Hermione   | Granger   | Lassie
+    Hermione   | Granger   | Marmaduke
+    Arabella   | Figg      | Boujee
+    Arabella   | Figg      | Munchkin
+    Arabella   | Figg      | Marley
+    Arabella   | Figg      | Lassie
+    Arabella   | Figg      | Marmaduke
+
+    Lists of all cats and all dogs who have not been adopted.
+
+    SELECT name as "Available Dogs"
+    FROM dogs
+    WHERE id NOT IN (SELECT dog_id FROM dog_adoptions);
+
+     Available Dogs 
+    ----------------
+    Boujee
+    Munchkin
+    Marley
+    Lassie
+    Marmaduke
+
+    SELECT name as "Available Cats"
+    FROM cats
+    WHERE id NOT IN (SELECT cat_id FROM cat_adoptions);
+
+     Available Cats 
+    ----------------
+    Seashell
+    Nala
+     
+    Volunteers who are available to foster. If they currently are fostering a dog, include the dog. 
+    Also include all dogs who are not currently in foster homes.
+
+    SELECT v.first_name, v.last_name, dogs.name
+    FROM (SELECT * from volunteers WHERE available_to_foster = true) v
+    RIGHT OUTER JOIN dogs
+    ON dogs.id = v.foster_dog_id;
+
+     last_name |   name    
+    -----------+-----------
+               | Boujee
+    Hagrid     | Munchkin
+               | Marley
+               | Lassie
+    Dursley    | Marmaduke
+               | Rosco
+
+    The name of the person who adopted Rosco.
+
+    SELECT id FROM dogs WHERE name = 'Rosco';
+
+    SELECT adopter_id FROM dog_adoptions WHERE dog_id = (SELECT id FROM dogs WHERE name = 'Rosco');
+
+    SELECT first_name, last_name FROM adopters WHERE id = (SELECT adopter_id FROM dog_adoptions WHERE dog_id = (SELECT id FROM dogs WHERE name = 'Rosco'));
+
+     first_name | last_name 
+    ------------+-----------
+     Argus      | Filch
+    
+Using this Library schema and data, write queries applying the following scenarios:
+
+    To determine if the library should buy more copies of a given book, please provide the names and position, in order, of all of the patrons with a hold (request for a book with all copies checked out) on "Advanced Potion-Making".
+    Make a list of all book titles and denote whether or not a copy of that book is checked out.
+    In an effort to learn which books take longer to read, the librarians would like you to create a list of average checked out time by book name in the past month.
+    In order to learn which items should be retired, make a list of all books that have not been checked out in the past 5 years.
+    List all of the library patrons. If they have one or more books checked out, correspond the books to the patrons.
