@@ -176,8 +176,24 @@ ON p.id = c.professor_id;
     
 Using this Library schema and data, write queries applying the following scenarios:
 
-    To determine if the library should buy more copies of a given book, please provide the names and position, in order, of all of the patrons with a hold (request for a book with all copies checked out) on "Advanced Potion-Making".
+    To determine if the library should buy more copies of a given book, please provide the names and position, in order, 
+    of all of the patrons with a hold (request for a book with all copies checked out) on "Advanced Potion-Making".
+
+    SELECT patrons.name, holds.rank
+    FROM holds
+    JOIN patrons
+    ON holds.isbn = (SELECT isbn FROM books WHERE title='Advanced Potion-Making')
+    AND patrons.id = holds.patron_id
+    ORDER BY holds.rank;
+
+    name            | rank
+    ----------------+-----------
+     Terry Boot     | 1
+     Cedric Diggory | 2
+
     Make a list of all book titles and denote whether or not a copy of that book is checked out.
+
+
     In an effort to learn which books take longer to read, the librarians would like you to create a list of average checked out time by book name in the past month.
     In order to learn which items should be retired, make a list of all books that have not been checked out in the past 5 years.
     List all of the library patrons. If they have one or more books checked out, correspond the books to the patrons.
